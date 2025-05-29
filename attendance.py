@@ -15,6 +15,7 @@ while True:
     eng_to_kor[eng.strip()] = kor.strip()
     r += 1
 
+
 # 오늘 날짜 구하기
 now = datetime.now()
 year = str(now.year)[2:]
