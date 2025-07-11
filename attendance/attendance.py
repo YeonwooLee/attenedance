@@ -69,8 +69,8 @@ def create_base_form(year, month):
             else:
                 break
 
-        print(before_names)
-        print(insert_idx)
+        # print(before_names)
+        # print(insert_idx)
         new_names = [name for name in new_names if name not in before_names]
 
         if not new_names:
@@ -131,7 +131,7 @@ def attendance_check():
         for row in ws.iter_rows(min_row=2, values_only=True):
             if row[0]:  # 이름이 있는 경우
                 user_num_name_dict[str(row[1])] = row[0]  # 번호:이름 매핑
-        print(user_num_name_dict)
+        # print(user_num_name_dict)
         if not user_num_name_dict:
             print("⚠️ 등록된 인원이 없습니다. roster 시트를 확인하세요.")
             return
@@ -150,9 +150,13 @@ def attendance_check():
             print("출석 체크를 종료합니다.")
             wb.save(FILENAME)
             return
-        user_name = user_num_name_dict[user_num]
+        try:
+            user_name = user_num_name_dict[user_num]
+        except KeyError:
+            print(f"등록되지 않은 회원 전화번호:{user_num}\n")
+            continue
         row_num = user_name_row_dict.get(user_name)
-        print(f"입력한 전화번호: {user_num}, 이름: {user_name}, 행 번호: {row_num}")
+        print(f"입력한 전화번호: {user_num}, 이름: {user_name}, 행 번호: {row_num}\n")
 
         ws.cell(row=row_num, column=today_col, value=0)
         wb.save(FILENAME)
