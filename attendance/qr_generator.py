@@ -10,13 +10,13 @@ sheet = wb['roster']
 members = []
 row = 2
 while True:
-    kor = sheet.cell(row=row, column=1).value
-    eng = sheet.cell(row=row, column=2).value
-    if not kor or not eng:
+    user = sheet.cell(row=row, column=1).value
+    userNum = sheet.cell(row=row, column=2).value
+    if not user or not userNum:
         break
-    kor = str(kor)
-    eng = str(eng)
-    members.append({'kor': kor, 'eng': eng})
+    user = str(user)
+    userNum = str(userNum)
+    members.append({'user': user, 'userNum': userNum})
     row += 1
 
 # 2. QR 저장 폴더 준비
@@ -29,7 +29,7 @@ font_size = 20
 
 for member in members:
     # QR 데이터엔 영어이름만
-    data = member['eng']
+    data = member['userNum']
 
     # 4. QR코드 생성
     qr = qrcode.QRCode(
@@ -51,7 +51,7 @@ for member in members:
     # 6. 한글 라벨 그리기
     draw = ImageDraw.Draw(new_img)
     font = ImageFont.truetype(font_path, font_size)
-    label = member['kor']
+    label = member['user']
     print(label)
     bbox = draw.textbbox((0,0), label, font=font)
     tx = (qr_w - (bbox[2]-bbox[0])) // 2
@@ -59,7 +59,7 @@ for member in members:
     draw.text((tx, ty), label, font=font, fill='black')
 
     # 7. 파일로 저장
-    filename = f"{member['kor']}.png"
+    filename = f"{member['user']}.png"
     new_img.save(os.path.join(output_dir, filename))
 
 print("QR 생성 완료!")
