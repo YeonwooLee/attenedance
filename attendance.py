@@ -83,7 +83,7 @@ def create_base_form(year, month):
             if insert_idx==3:
                 num = 1
             else:
-                num = ws.cell(row=insert_idx-1, column=1).value + 1
+                num = int(ws.cell(row=insert_idx-1, column=1).value) + 1
             ws.cell(row=insert_idx, column=1, value=num)
             ws.cell(row=insert_idx, column=2, value=name)
             insert_idx += 1
